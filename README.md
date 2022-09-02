@@ -16,4 +16,17 @@
 
 ## Analisador Léxico (Parte 1)
 
+<ul>
+    <li>- [ ] Projetar um analisador léxico para a linguagem proposta, identificando seus átomos a partir da gramática apresentada pelo professor da disciplina.</li>
+    <li>- [ ] O método deve “ler” o contéudo de um arquivo, cujo nome é passado como parâmetro e retornar os átomos (tokens) encontrados.</li>
+    <li>- [ ] Nesta etapa, você deve implementar um mecanismo de controle de numeração das linhas e ignorar comentários. Para cada token reconhecido, deve ser possível exibir: <br><p align="center"><b>&lt;Numero da linha do token, Token, Atributo (quando possuir atributo)&gt;</b></p></br></li>
+    <li>- [ ] Observe que o seu analisador léxico deve retornar um token sempre que for chamado. Nesse momento, os tokens identificados devem ser colocados na saída padrão.</li>
+    <li>- [ ] As palavras-chave são consideradas palavras reservadas, i.e. não podem ser utilizadas como identificadores. A lista de palavras-reservadas para a linguagem na sua especificação.</li>
+    <li>- [ ] Seu Analisador Léxico deve criar e gerenciar uma tabela de palavras reservadas (que pode ser implementada como uma tabela hash ou vetor de strings) para as palavras reservadas da linguagem. Toda vez que um identificador for encontrado, deverá ser feita uma busca na tabela de palavras reservadas. No caso de sucesso, o Analisador Léxico deve retornar como token a palavra reservada encontrada. Caso contrário, um identificador foi reconhecido e o mesmo deverá ser inserido na tabela de símbolos, caso ainda não tenha sido inserido.</li>
+    <li>- [ ] Identifique e descreva as definições regulares para tokens sem atributos tais como, operadores aritméticos, relacionais, atribuição, entre outros.</li>
+    <li>- [ ] Identifique e descreva as definições regulares para tokens com atributos, tais como identificadores, números, decimais, comentários, entre outros.</li>
+    <li>- [ ] Observe que o reconhecimento de palavras reservadas deve ser implementado no reconhecimento de identificadores, pois possuem o mesmo padrão de formação.</li>
+    <li>- [ ] Por fim, não se esqueça de identificar e descrever definições regulares para tokens delimitadores: espaços em branco, tabulações e caracteres de nova linha.</li>
+</ul>
+
 ## Analisador Sintático (Parte 2)
