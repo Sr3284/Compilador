@@ -14,7 +14,7 @@ public class Tokenizer {
 	public static class Token {
 		public final Ttipo t;	//Tipo do token
 		public final String c;	//Conteudo dos tokens
-		public final int l;		//Linha em que o token aparece
+		public final int l; 	//Linha em que o token aparece
 
 		public Token(Ttipo t, String c, int l) {
 			this.t = t;
