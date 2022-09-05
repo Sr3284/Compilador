@@ -7,7 +7,12 @@ public class Tokenizer {
 
 	//Possui três tokens "(", ")" e "atomos"
 	public static enum Ttipo {
-		EPAREN, DPAREN, ATOMO;
+		INTER, BOOL, VERD, FALS, READ, WRITE,						//Predefined identifiers 
+		EPAREN, DPAREN, PONTO_VIRG, VIRG, ECHAVES, DCHAVES,			//Pontuação
+		OP_EQUALS, OP_DIFF, OP_LESS, OP_LEQ, OP_GEQ, OP_GREAT, 
+		OP_PLUS, OP_MINUS, OP_OR, OP_MULT, OP_DIV, OP_AND, OP_NOT,	//Simbolos de operações
+		VOID, GOTO, RETURN, IF, WHILE,								//Reservadas?
+		INVALIDO;													//Debug
 	}
 
 	//Classe dos Tokens
@@ -51,11 +56,11 @@ public class Tokenizer {
 		for (int i = 0; i < in.length(); ) {
 			switch (in.charAt(i)) {
 			case '(':
-				resultado.add(new Token(Ttipo.EPAREN, "("));
+				resultado.add(new Token(Ttipo.EPAREN, "(", 1));
 				i++;
 				break;
 			case ')':
-				resultado.add(new Token(Ttipo.DPAREN, ")"));
+				resultado.add(new Token(Ttipo.DPAREN, ")", 1));
 				i++;
 				break;
 			default:
