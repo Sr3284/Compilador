@@ -12,17 +12,19 @@ public class Tokenizer {
 
 	//Classe dos Tokens
 	public static class Token {
-		public final Ttipo t;	//Tipo do Token
+		public final Ttipo t;	//Tipo do token
 		public final String c;	//Conteudo dos tokens
+		public final int l;		//Linha em que o token aparece
 
-		public Token(Ttipo t, String c) {
+		public Token(Ttipo t, String c, int l) {
 			this.t = t;
 			this.c = c;
+			this.l = l;
 		}
 
 		public String toString() {
 			if (t == Ttipo.ATOMO) {
-				return "ATOMO <" + c + ">";
+				return "ATOMO <" + c + "> na linha " + l;
 			}
 			return t.toString();
 		}
@@ -62,7 +64,7 @@ public class Tokenizer {
 				} else {
 					String atomo = getAtomo(in, i);
 					i += atomo.length();
-					resultado.add(new Token(Ttipo.ATOMO, atomo));
+					resultado.add(new Token(Ttipo.ATOMO, atomo, 1));
 				}
 				break;
 			}
@@ -71,6 +73,7 @@ public class Tokenizer {
 		return resultado;
 	}
 
+	//versão in-line
 	public static void main(String[] args) {
 		if (args.length < 1) {
 			System.out.println("Uso: java Tokenizer \"<Algo para o Lexer analisar>\"");
