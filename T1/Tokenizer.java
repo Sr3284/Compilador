@@ -63,6 +63,76 @@ public class Tokenizer {
 				resultado.add(new Token(Ttipo.DPAREN, ")", 1));
 				i++;
 				break;
+			
+			case ';':
+				resultado.add(new Token(Ttipo.PONTO_VIRG, ";", 1));
+				i++;
+				break;
+			case ',':
+				resultado.add(new Token(Ttipo.VIRG, ",", 1));
+				i++;
+				break;
+			case '{':
+				resultado.add(new Token(Ttipo.ECHAVES, "{", 1));
+				i++;
+				break;
+			case '}':
+				resultado.add(new Token(Ttipo.DCHAVES, "}", 1));
+				i++;
+				break;
+			//OPERADORES
+			case '+':
+				resultado.add(new Token(Ttipo.OP_PLUS, "+", 1));
+				i++;
+				break;
+			case '-':
+				resultado.add(new Token(Ttipo.OP_MINUS, "-", 1));
+				i++;
+				break;
+			case '*':
+				resultado.add(new Token(Ttipo.OP_MULT, "*", 1));
+				i++;
+				break;
+			case '/':
+				resultado.add(new Token(Ttipo.OP_DIV, "/", 1));
+				i++;
+				break;
+			case '=':
+				resultado.add(new Token(Ttipo.OP_GET, "=", 1));
+				i++;
+				break;
+			case '==':
+				resultado.add(new Token(Ttipo.OP_EQUALS, "==", 1));
+				i++;
+				break;
+			case '!=':
+				resultado.add(new Token(Ttipo.OP_DIFF, "!=", 1));
+				i++;
+				break;
+			case '<':
+				resultado.add(new Token(Ttipo.OP_LESS, "<", 1));
+				i++;
+				break;
+			case '<=':
+				resultado.add(new Token(Ttipo.OP_LEQ, "<=", 1));
+				i++;
+				break;
+			case '=>':
+				resultado.add(new Token(Ttipo.OP_GEQ, "=>", 1));
+				i++;
+				break;
+			case '>':
+				resultado.add(new Token(Ttipo.OP_GREAT, ">", 1));
+				i++;
+				break;
+			case '&&':
+				resultado.add(new Token(Ttipo.OP_AND, "&&", 1));
+				i++;
+				break;
+			case '!':
+				resultado.add(new Token(Ttipo.OP_NOT, "!", 1));
+				i++;
+				break;
 			default:
 				if (Character.isWhitespace(in.charAt(i))) {
 					i++;
