@@ -23,16 +23,24 @@ char *terminais[] = {"boolean", "false", "goto", "if", "interger", "read",
 //verifica se é uma palavra reservada, retorna cod. da palavra chave ou ID 
 char ehChave(char *i) {
 
-	int j, k, l, m;
-
-	j = 0;
+	int h, j, k, l, m;
+	char iaux[strlen(i)+1];
+	
+	h, j = 0;
 	k = (sizeof(pChaves)/sizeof(pChaves[0])) - 1;
-
+	
+	while (i[h] != '/0')
+	{
+		iaux[h] = i[h];
+		h++;
+	}
+	iaux[h] = '/0';
+	
 	while (j <= k) {
 
 		l = (j + k)/2;
 
-		if ((m = strcmp(i,pChaves[l])) > 0) {
+		if ((m = strcmp(iaux,pChaves[l])) > 0) {
 			j = l + 1;
 		} else if (m < 0) {
 			k = l - 1;
