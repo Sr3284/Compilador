@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 #include "tokenizer.h"
@@ -23,7 +24,15 @@ char *terminais[] = {"boolean", "false", "goto", "if", "interger", "read",
 //verifica se é uma palavra reservada, retorna cod. da palavra chave ou ID 
 char ehChave(char *i) {
 
+	char *temp = strdup(i);
+	unsigned char *tpointer = (unsigned char *)temp;
+
 	int j, k, l, m;
+
+	while (*tpointer) {
+		*tpointer = tolower(*tpointer);
+		tpointer++;
+	}
 
 	j = 0;
 	k = (sizeof(pChaves)/sizeof(pChaves[0])) - 1;
@@ -32,15 +41,17 @@ char ehChave(char *i) {
 
 		l = (j + k)/2;
 
-		if ((m = strcmp(i,pChaves[l])) > 0) {
+		if ((m = strcmp(temp,pChaves[l])) > 0) {
 			j = l + 1;
 		} else if (m < 0) {
 			k = l - 1;
 		} else {
+			free(temp);
 			return l;
 		}
 	}
 
+	free(temp);
 	return ID;
 }
 
