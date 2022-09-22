@@ -145,7 +145,9 @@ int tokenizer() {
 			break;
 		case 3:
 			if (c == '/') {
-				return COMENT;
+				est = 11;
+			} else if (c == '*') {
+				est = 12;
 			} else {
 				ungetc(c, f);
 				lexema[--ilexema] = '\0';
@@ -209,6 +211,23 @@ int tokenizer() {
 				ungetc(c, f);
 				lexema[--ilexema] = '\0';
 				return (ehChave(lexema));
+			}
+			break;
+		case 11:
+			if (c == '\n') {
+				return COMENT;
+			}
+			break;
+		case 12:
+			if (c == '*') {
+				est = 13;
+			}
+			break;
+		case 13:
+			if (c == '/') {
+				return COMENT;
+			} else {
+				est = 12;
 			}
 			break;
 		}
