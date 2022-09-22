@@ -215,6 +215,8 @@ int tokenizer() {
 			break;
 		case 11:
 			if (c == '\n') {
+				ungetc(c, f);
+				lexema[--ilexema] = '\0';
 				return COMENT;
 			}
 			break;
