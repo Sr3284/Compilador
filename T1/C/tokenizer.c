@@ -75,6 +75,7 @@ int tokenizer() {
 				ilexema--;
 				break;
 			case '\n':
+				ilexema--;
 				linhas++;
 				break;
 			case '+':
