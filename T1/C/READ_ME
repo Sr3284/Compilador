@@ -11,5 +11,5 @@ Caso queira remover os arquivos intermediários da compilação:
 Para executar o programa basta usar:
 	./tokenTest <arquivo_para_analise>
 
-Deixamos os arquivos de teste usados durante o desenvolvimento na pasta in, você pode usá-los com:
-	./tokenTest in/teste<número_do_teste>
+Deixamos os arquivos de teste usados durante o desenvolvimento na pasta testes, você pode usá-los com:
+	./tokenTest testes/teste<número_do_teste>
