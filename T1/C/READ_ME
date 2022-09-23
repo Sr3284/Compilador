@@ -1,0 +1,15 @@
+Versão das ferramentas usadas:
+	gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
+	GNU Make 4.2.1
+
+Para compilar:
+	make
+
+Caso queira remover os arquivos intermediários da compilação:
+	make clean
+
+Para executar o programa basta usar:
+	./tokenTest <arquivo_para_analise>
+
+Deixamos os arquivos de teste usados durante o desenvolvimento na pasta in, você pode usá-los com:
+	./tokenTest in/teste<número_do_teste>
