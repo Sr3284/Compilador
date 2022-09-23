@@ -7,6 +7,7 @@
 FILE *f;
 char **tSimbolo;
 int lastSimb = 0,
+	posTabela = 0,
 	currLimit = 10;
 
 int main(int argc, char *argv[]) {
@@ -35,6 +36,8 @@ int main(int argc, char *argv[]) {
 		teste = tokenizer();
 		if (teste == ERR) {
 			printf("Simbolo inválido: < linha %d, %s >\n", linhas, lexema);
+		} else if (teste == ID) {
+			printf("< linha %d, Token: %s_%d, %s >\n", linhas, terminais[teste], posTabela, lexema);
 		} else {
 			printf("< linha %d, Token: %s, %s >\n", linhas, terminais[teste], lexema);
 		}

@@ -27,7 +27,7 @@ char ehChave(char *i) {
 	char *temp = strdup(i);
 	unsigned char *tpointer = (unsigned char *)temp;
 
-	int j, k, l, m;
+	int j, k, l, m, n;
 
 	while (*tpointer) {
 		*tpointer = tolower(*tpointer);
@@ -51,8 +51,18 @@ char ehChave(char *i) {
 		}
 	}
 
-	strcpy(tSimbolo[lastSimb], i);
-	lastSimb+=1;
+	for (j = 0; j <= lastSimb; j++) {
+		if ((m = strcmp(temp,tSimbolo[j])) == 0) {
+			posTabela = j;
+			j = lastSimb + 1;
+		}
+	}
+
+	if (m != 0) {
+		strcpy(tSimbolo[lastSimb], i);
+		posTabela = lastSimb;
+		lastSimb+=1;
+	}
 
 	free(temp);
 	return ID;
