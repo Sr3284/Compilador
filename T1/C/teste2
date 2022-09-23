@@ -1,0 +1,18 @@
+boolean BoOlEaN
+false FaLsE
+goto GoTo
+if If
+interger INTerger
+read READ
+true trUE
+void vOID
+while WHIle
+write wrIte
+
+/*-------------*/
+
+int main(void){
+	//Compilar é bacana!
+
+	return 0;
+}
