@@ -5,10 +5,10 @@
 #include "tokenizer.h"
 
 //globais
-char c;                        		//Armazena o char lido na entrada
-char lexema[100];              		//Armazena a palavra processada
-int ilexema;                   		//Indice do lexema
-int linhas = 1, linhaAtual = 0;		//Contadores de linhas
+char c;          	//Armazena o char lido na entrada
+char lexema[100];	//Armazena a palavra processada
+int ilexema;     	//Indice do lexema
+int linhas = 1;  	//Contadores de linhas
 
 char *pChaves[] = {"boolean", "false", "goto", "if", "interger", "read", 
 					"return", "true", "void", "while", "write"};	//palavras reservadas
@@ -41,15 +41,18 @@ char ehChave(char *i) {
 
 		l = (j + k)/2;
 
-		if ((m = strcmp(temp,pChaves[l])) > 0) {
-			j = l + 1;
+		if ((m = strcmp(temp,pChaves[l])) == 0) {
+			free(temp);
+			return l;
 		} else if (m < 0) {
 			k = l - 1;
 		} else {
-			free(temp);
-			return l;
+			j = l + 1;
 		}
 	}
+
+	strcpy(tSimbolo[lastSimb], i);
+	lastSimb+=1;
 
 	free(temp);
 	return ID;
