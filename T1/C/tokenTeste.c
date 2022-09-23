@@ -53,10 +53,10 @@ int main(int argc, char *argv[]) {
 
 	} while(teste != FIM);
 
-	printf("\nTabela de simbolos\n");
+	//printf("\nTabela de simbolos\n");
 
 	for (i = 0; i < currLimit; i++) {
-		printf("ID_%d : %s\n", i, tSimbolo[i]);
+		//printf("ID_%d : %s\n", i, tSimbolo[i]);
 		free(tSimbolo[i]);
 	}
 	free(tSimbolo);
