@@ -28,7 +28,7 @@ char ehChave(char *i) {
 	unsigned char *tpointer = (unsigned char *)temp;
 
 	int j, k, l, m, n;
-
+//transforma todos caracteres para minusculo
 	while (*tpointer) {
 		*tpointer = tolower(*tpointer);
 		tpointer++;
@@ -40,7 +40,7 @@ char ehChave(char *i) {
 	while (j <= k) {
 
 		l = (j + k)/2;
-
+		//compara caractere a caractere das palavras reservadas com a entrada armazenada em temp 
 		if ((m = strcmp(temp,pChaves[l])) == 0) {
 			free(temp);
 			return l;
@@ -50,7 +50,7 @@ char ehChave(char *i) {
 			j = l + 1;
 		}
 	}
-
+//cria a tabela de simbolos sem repetição
 	for (j = 0; j <= lastSimb; j++) {
 		if ((m = strcmp(temp,tSimbolo[j])) == 0) {
 			posTabela = j;
