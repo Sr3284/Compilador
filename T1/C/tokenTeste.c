@@ -19,14 +19,14 @@ int main(int argc, char *argv[]) {
 		printf("\nUso: tokenizer <arquivo>\n");
 		return 1;
 	}
-
+//abre arquivo no modo leitura
 	f = fopen(argv[1], "r");
 
 	if (!f) {
 		printf("\nErro ao abrir o arquivo %s\n", argv[1]);
 		return 1;
 	}
-
+//aloca espaço para tabela de simbolos
 	tSimbolo = malloc(currLimit * sizeof(char *));
 	for (i = 0; i < currLimit; i++) {
 		tSimbolo[i] = malloc((ID_TAM) * sizeof(char));
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
 		} else {
 			printf("< linha %d, Token: %s, %s >\n", linhas, terminais[teste], lexema);
 		}
-
+//realoca o dobro de espaço na tabela de simbolos, caso exceda a quantidade de simbolos
 		if(lastSimb == (currLimit - 1)) {
 			currLimit *= 2;
 			tSimbolo = realloc(tSimbolo, currLimit * sizeof(char *));
@@ -54,7 +54,8 @@ int main(int argc, char *argv[]) {
 	} while(teste != FIM);
 
 	//printf("\nTabela de simbolos\n");
-
+	
+//printa tabele, libera espaço e fechar o arquivo lido
 	for (i = 0; i < currLimit; i++) {
 		//printf("ID_%d : %s\n", i, tSimbolo[i]);
 		free(tSimbolo[i]);
