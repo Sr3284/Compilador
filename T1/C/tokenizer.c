@@ -10,10 +10,10 @@ char lexema[100];	//Armazena a palavra processada
 int ilexema;     	//Indice do lexema
 int linhas = 1;  	//Contadores de linhas
 
-char *pChaves[] = {"boolean", "false", "goto", "if", "interger", "read", 
+char *pChaves[] = {"boolean", "false", "goto", "if", "integer", "read", 
 					"return", "true", "void", "while", "write"};	//palavras reservadas
 
-char *terminais[] = {"boolean", "false", "goto", "if", "interger", "read",
+char *terminais[] = {"boolean", "false", "goto", "if", "integer", "read",
 					"return", "true", "void", "while", "write", "EPAREN",
 					 "DPAREN", "ECHAVE", "DCHAVE", "EBRACK", "DBRACK", 
 					 "PVIRG", "VIRG", "DPOINT", "OP_EQUAL", "OP_DIFF", "OP_GREAT", 
