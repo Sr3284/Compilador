@@ -13,8 +13,8 @@ int linhas = 1;  	//Contadores de linhas
 char *pChaves[] = {"boolean", "false", "functions", "goto", "if", "integer", "labels", "read", 
 					"return", "true", "types", "var", "vars", "void", "while", "write"};	//palavras reservadas
 
-char *terminais[] = {"boolean", "false", "functions", "goto", "if", "integer", "labels", "read", 
-					"return", "true", "types", "var", "vars", "void", "while", "write", "EPAREN",
+char *terminais[] = {"boolean", "false", "functions", "goto", "if", "integer", "labels", "read",
+					 "return", "true", "types", "var", "vars", "void", "while", "write", "EPAREN",
 					 "DPAREN", "ECHAVE", "DCHAVE", "EBRACK", "DBRACK", 
 					 "PVIRG", "VIRG", "DPOINT", "OP_EQUAL", "OP_DIFF", "OP_GREAT", 
 					 "OP_GEQ", "OP_LESS", "OP_LEQ", "OP_AND", "OP_OR","OP_ATRB", 
