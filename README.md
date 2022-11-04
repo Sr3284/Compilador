@@ -3,7 +3,7 @@
 ### Cronograma de entregas
   1. 25/08 - Início do trabalho;
   2. 20/09 - 1º Checkpoint: Entrevista sobre a parte 1;
-  3. 08/11 - 2º Checkpoint: Entrevista sobre a parte 2; (atualizado)
+  3. 09/11 - 2º Checkpoint: Entrevista sobre a parte 2; (atualizado)
   4. 24/11 - Entrega e entrevista do Trabalho.
 
 ### Critérios de avaliação
