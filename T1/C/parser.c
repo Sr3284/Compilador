@@ -28,11 +28,18 @@ int lh;		//lookhead
 
 // Verifica se o próximo terminal é t e avança para o próximo token
 void verifica(int t) {
+	if (lh == COMENT)
+		lh = tokenizer();
+
+	if (lh == ERR) {
+		printf("Erro Léxico(linha: %d): símbolo inválido \"%s\" encontrado.");
+		exit(1);
+	}
 
 	if (lh == t) {
 		lh = tokenizer();
 	} else {
-		printf("Erro Sintático\n");
+		printf("Erro Sintático(linha: %d): token \"%s\" esperado.\"%s\" encontrado.\n");
 		exit(1);
 	}
 }
@@ -65,14 +72,14 @@ void FPS() {
 
 /* Inicia o processamento e devolve mensagem se a texto estiver 
 sintáticamente correto */
-char *parser() {
+char* parser() {
 	lh = tokenizer();
 	S();
 
 	if (lh == FIM)
-		return("Syntax correta!");
+		return("Fim do arquivo alcançado, a sintaxe está correta!");
 	else
-		return("Fim não alcançado");
+		return("Fim do arquivo não alcançado.");
 }
 
 // Função MAIN
