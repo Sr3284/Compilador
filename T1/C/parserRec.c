@@ -11,9 +11,27 @@
 FILE *f;
 int la;		//lookahead
 
+char **tSimbolo;
+int lastSimb = 0,
+	posTabela = 0,
+	currLimit = 10;
+
 // Verifica se o próximo terminal é t e avança para o próximo token
 void verifica(int t) {
-	
+
+	if (la == ID) {		// Responsável pela tabela de simbolo
+		if(lastSimb == (currLimit - 1)) {
+			currLimit *= 2;
+			tSimbolo = realloc(tSimbolo, currLimit * sizeof(char *));
+
+			for (i = (lastSimb + 1); i < currLimit; i++) {
+				tSimbolo[i] = malloc((ID_TAM) * sizeof(char));
+			}
+		}
+
+		la = tokenizer();
+	}
+
 	if (la == COMENT)
 		la = tokenizer();
 
@@ -104,6 +122,11 @@ void EP() {
 /* Inicia o processamento e devolve mensagem se a texto estiver 
 sintáticamente correto */
 char* parser() {
+
+	tSimbolo = malloc(currLimit * sizeof(char *));		// Tabela de simbolos genérica
+	for (i = 0; i < currLimit; i++) {
+		tSimbolo[i] = malloc((ID_TAM) * sizeof(char));
+	}
 
 	la = tokenizer();
 
