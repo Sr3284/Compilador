@@ -1,22 +1,5 @@
 /* ----------------------------------------------------------------------
-Protótipo do parser - LL(1)
-
-Produções até o momento:
-
-S    -> P
-P    -> id P'
-		void P'
-P'   -> id FPS B
-FPS  -> eparen FP FPS' dparen	<<<< precisa arrumar essa produção
-		eparen dparen
-FPS' -> pvirg FP FPS'
-		epsilon
-FP   -> EP
-		FUP
-EP   -> var? I dpoint id		<<< esperando confimação do professor
-FUP  -> id FUP'
-		void FUP'
-FUP' -> id FPS
+	Implementação do parser recursivo
 ---------------------------------------------------------------------- */
 
 #include <stdio.h>
@@ -24,23 +7,37 @@ FUP' -> id FPS
 #include "tokenizer.h"
 
 FILE *f;
-int lh;		//lookhead
+int la;		//lookahead
 
 // Verifica se o próximo terminal é t e avança para o próximo token
 void verifica(int t) {
-	if (lh == COMENT)
-		lh = tokenizer();
+	if (la == COMENT)
+		la = tokenizer();
 
-	if (lh == ERR) {
-		printf("Erro Léxico(linha: %d): símbolo inválido \"%s\" encontrado.");
+	if (la == ERR) {
+		printf("Erro Léxico(linha: %d): símbolo inválido \"%s\" encontrado.",);
 		exit(1);
 	}
 
-	if (lh == t) {
-		lh = tokenizer();
+	if (la == t) {
+		la = tokenizer();
 	} else {
-		printf("Erro Sintático(linha: %d): token \"%s\" esperado.\"%s\" encontrado.\n");
+		printf("Erro Sintático(linha: %d): token \"%s\" esperado.\"%s\" encontrado.\n",);
 		exit(1);
+	}
+}
+
+
+/* Inicia o processamento e devolve mensagem se a texto estiver 
+sintáticamente correto */
+char* parser() {
+	la = tokenizer();
+	S();
+
+	if (la == FIM) {
+		return("Fim do arquivo alcançado, a sintaxe está correta!");
+	} else {
+		return("Fim do arquivo não alcançado.");
 	}
 }
 
@@ -49,17 +46,13 @@ void S() {
 }
 
 void P() {
-	if (lh == ID) {
+	if (la == ID) {
 		verifica(ID);
-		P_();
-	} else if (lh == VAZIO) {
+		verifica(ID);
+		FPS();
+		B();
+	} else if (la == VAZIO) {
 		verifica(VAZIO);
-		P_();
-	}
-}
-
-void P_() {
-	if (lh == ID) {
 		verifica(ID);
 		FPS();
 		B();
@@ -67,19 +60,38 @@ void P_() {
 }
 
 void FPS() {
-
+	if (la == EPAREN) {
+		verifica(EPAREN);
+		FPS_();
+	}
 }
 
-/* Inicia o processamento e devolve mensagem se a texto estiver 
-sintáticamente correto */
-char* parser() {
-	lh = tokenizer();
-	S();
+void FPS_() {
+	if (la == DPAREN) {
+		verifica(DPAREN);
+	} else {
+		if(la == VAR || la == VAZIO || la == ID) {
+			FP();
+			FKP();
+			verifica(DPAREN);
+		}
+	}
+}
 
-	if (lh == FIM)
-		return("Fim do arquivo alcançado, a sintaxe está correta!");
-	else
-		return("Fim do arquivo não alcançado.");
+void FP() {
+	if (la == ID) {
+		verifica(ID);
+
+		if (la == VIRG || la == DPOINT) {
+			EP();
+		}
+
+		if (la == ID) {
+			FUP();
+		}
+	} else if (la == VAR) {
+		EP();
+	} else	if (la == VAZIO) {}
 }
 
 // Função MAIN
