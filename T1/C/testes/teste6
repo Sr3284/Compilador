@@ -1,0 +1,23 @@
+int main()
+{
+	int a = 5;
+	while(a>0)
+	{
+		write(a);
+		a = a -1;
+	}
+
+	a=4;
+	while(a>0)
+	{
+		write(a);
+		a = a - 1;
+		int b;
+		b= 4;
+		while(b>0)
+		{
+			write(a*b);
+			b = b - 1;
+		}
+	}
+}
