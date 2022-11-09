@@ -19,7 +19,7 @@ char *terminais[] = {"boolean", "false", "functions", "goto", "if", "integer", "
 					 "PVIRG", "VIRG", "DPOINT", "OP_EQUAL", "OP_DIFF", "OP_GREAT", 
 					 "OP_GEQ", "OP_LESS", "OP_LEQ", "OP_AND", "OP_OR","OP_ATRB", 
 					 "OP_PLUS", "OP_PLUSPLUS", "OP_MINUS", "OP_MINUSMINUS", 
-					 "OP_MULT", "OP_DIV", "ID", "NUM", "COMENT", "FIM"};	//terminais aceitos
+					 "OP_MULT", "OP_DIV", "OP_NOT", "ID", "NUM", "COMENT", "FIM"};	//terminais aceitos
 
 //verifica se é uma palavra reservada, retorna cod. da palavra chave ou ID 
 char ehChave(char *i) {
@@ -108,6 +108,9 @@ int tokenizer() {
 				break;
 			case '=':
 				est = 4;
+				break;
+			case '!':
+				est = 14;
 				break;
 			case '>':
 				est = 5;
@@ -257,6 +260,14 @@ int tokenizer() {
 				est = 12;
 			}
 			break;
+		case 14:
+			if (c == '=') {
+				return OP_DIFF;
+			} else {
+				ungetc(c, f);
+				lexema[--ilexema] = '\0';
+				return OP_NOT;
+			}
 		}
 	}while (!feof(f));
 
