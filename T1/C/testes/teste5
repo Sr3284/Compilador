@@ -1,5 +1,5 @@
 void main(){
-	integer a,b,c,d,e,f,g,h;
+	int a;
 
 	c=a+b;
 	d=a*b;
