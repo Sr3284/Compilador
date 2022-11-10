@@ -60,11 +60,16 @@ void verifica(int t, const char* f) {
 }
 
 void S() {
-	printf("S: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("S: (%s): %s\n", terminais[la], lexema);
+	#endif
 	P();
 }
 
 void P() {
+	#ifdef DEBUG
+		printf("P: (%s): %s\n", terminais[la], lexema);
+	#endif
 	F();
 
 	switch (la) {
@@ -78,7 +83,9 @@ void P() {
 }
 
 void F() {
-	printf("F: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("F: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case ID:
 			verifica(ID, __FUNCTION__);
@@ -100,14 +107,18 @@ void F() {
 }
 
 void FPS() {
-	printf("FPS: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("FPS: (%s): %s\n", terminais[la], lexema);
+	#endif
 	verifica(EPAREN, __FUNCTION__);
 	FP();
 	verifica(DPAREN, __FUNCTION__);
 }
 
 void FP() {
-	printf("FP: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("FP: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case ID:
 			verifica(ID, __FUNCTION__);
@@ -125,7 +136,9 @@ void FP() {
 }
 
 void FP_() {
-	printf("FP_: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("FP_: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case VIRG:
 		case DPOINT:
@@ -138,7 +151,9 @@ void FP_() {
 }
 
 void EP() {
-	printf("EP: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("EP: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case VAR:
 			verifica(VAR, __FUNCTION__);
@@ -165,7 +180,9 @@ void EP() {
 }
 
 void FUP() {
-	printf("FUP: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("FUP: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case ID:
 			verifica(ID, __FUNCTION__);
@@ -202,7 +219,9 @@ void FUP() {
 }
 
 void B() {
-	printf("B: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("B: (%s): %s\n", terminais[la], lexema);
+	#endif
 	L();
 	TS();
 	VS();
@@ -211,7 +230,9 @@ void B() {
 }
 
 void L() {
-	printf("L: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("L: (%s): %s\n", terminais[la], lexema);
+	#endif
 	if (la == LABELS) {
 		verifica(LABELS, __FUNCTION__);
 		IL();
@@ -220,7 +241,9 @@ void L() {
 }
 
 void IL() {
-	printf("IL: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("IL: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case ID:
 			verifica(ID, __FUNCTION__);
@@ -241,7 +264,9 @@ void IL() {
 }
 
 void TS() {
-	printf("TS: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("TS: (%s): %s\n", terminais[la], lexema);
+	#endif
 	if (la == TYPES) {
 		verifica(TYPES, __FUNCTION__);
 		TSK();
@@ -249,7 +274,9 @@ void TS() {
 }
 
 void TSK() {
-	printf("TSK: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("TSK: (%s): %s\n", terminais[la], lexema);
+	#endif
 	verifica(ID, __FUNCTION__);
 	verifica(OP_ATRB, __FUNCTION__);
 	T();
@@ -261,7 +288,9 @@ void TSK() {
 }
 
 void T() {
-	printf("T: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("T: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case ID:
 			verifica(ID, __FUNCTION__);
@@ -279,7 +308,9 @@ void T() {
 }
 
 void TK() {
-	printf("TK: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("TK: (%s): %s\n", terminais[la], lexema);
+	#endif
 	if (la == EBRACK) {
 		verifica(EBRACK, __FUNCTION__);
 		verifica(NUM, __FUNCTION__);
@@ -289,7 +320,9 @@ void TK() {
 }
 
 void VS() {
-	printf("VS: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("VS: (%s): %s\n", terminais[la], lexema);
+	#endif
 	if (la == VARS) {
 		verifica(VARS, __FUNCTION__);
 		VSK();
@@ -297,7 +330,9 @@ void VS() {
 }
 
 void VSK() {
-	printf("VSK: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("VSK: (%s): %s\n", terminais[la], lexema);
+	#endif
 	IL();
 	verifica(DPOINT, __FUNCTION__);
 	T();
@@ -309,7 +344,9 @@ void VSK() {
 }
 
 void FN() {
-	printf("FN: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("FN: (%s): %s\n", terminais[la], lexema);
+	#endif
 	if (la == FUNCTIONS) {
 		verifica(FUNCTIONS, __FUNCTION__);
 		FNK();
@@ -317,7 +354,9 @@ void FN() {
 }
 
 void FNK() {
-	printf("FNK: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("FNK: (%s): %s\n", terminais[la], lexema);
+	#endif
 	P();
 
 	switch (la) {
@@ -331,14 +370,18 @@ void FNK() {
 }
 
 void BD () {
-	printf("BD: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("BD: (%s): %s\n", terminais[la], lexema);
+	#endif
 	verifica(ECHAVE, __FUNCTION__);
 	BDK();
 	verifica(DCHAVE, __FUNCTION__);
 }
 
 void BDK() {
-	printf("BDK: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("BDK: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch(la) {
 		case ID:
 		case EBRACK:
@@ -354,7 +397,9 @@ void BDK() {
 }
 
 void ST() {
-	printf("ST: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("ST: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case ID:
 			STO();
@@ -375,7 +420,9 @@ void ST() {
 }
 
 void STO() {
-	printf("STO: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("STO: (%s): %s\n", terminais[la], lexema);
+	#endif
 	verifica(ID, __FUNCTION__);
 
 	switch(la) {
@@ -394,14 +441,18 @@ void STO() {
 }
 
 void CP() {
-	printf("CP: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("CP: (%s): %s\n", terminais[la], lexema);
+	#endif
 	verifica(ECHAVE, __FUNCTION__);
 	CPK();
 	verifica(DCHAVE, __FUNCTION__);
 }
 
 void CPK() {
-	printf("CPK: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("CPK: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case ID:
 			verifica(ID, __FUNCTION__);
@@ -456,25 +507,34 @@ void CPK() {
 }
 
 void DEC() {
+	#ifdef DEBUG
+		printf("DEC: (%s): %s\n", terminais[la], lexema);
+	#endif
 	verifica(ID, __FUNCTION__);
 	verifica(PVIRG, __FUNCTION__);
 }
 
 void FCS() {
-	printf("FCS: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("FCS: (%s): %s\n", terminais[la], lexema);
+	#endif
 	FC();
 	verifica(PVIRG, __FUNCTION__);
 }
 
 void FC() {
-	printf("FC: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("FC: (%s): %s\n", terminais[la], lexema);
+	#endif
 	verifica(EPAREN, __FUNCTION__);
 	EL();
 	verifica(DPAREN, __FUNCTION__);
 }
 
 void AS() {
-	printf("AS: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("AS: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case EBRACK:
 			VK();
@@ -496,7 +556,9 @@ void AS() {
 }
 
 void VK() {
-	printf("VK: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("VK: (%s): %s\n", terminais[la], lexema);
+	#endif
 	if (la == EBRACK) {	
 		verifica(EBRACK, __FUNCTION__);
 		EX();
@@ -506,7 +568,9 @@ void VK() {
 }
 
 void US() {
-	printf("US: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("US: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case OP_PLUSPLUS:
 			verifica(OP_PLUSPLUS, __FUNCTION__);
@@ -564,7 +628,9 @@ void US() {
 }
 
 void REO() {
-	printf("REO: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("REO: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case ID:
 		case EPAREN:
@@ -580,7 +646,9 @@ void REO() {
 }
 
 void EL() {
-	printf("EL: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("EL: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case ID:
 		case EPAREN:
@@ -597,7 +665,9 @@ void EL() {
 }
 
 void ELK() {
-	printf("ELK: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("ELK: (%s): %s\n", terminais[la], lexema);
+	#endif
 	if (la == VIRG) {	
 		verifica(VIRG, __FUNCTION__);
 		EX();
@@ -606,7 +676,9 @@ void ELK() {
 }
 
 void EX() {
-	printf("EX: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("EX: (%s): %s\n", terminais[la], lexema);
+	#endif
 	SE();
 
 	switch (la) {
@@ -623,7 +695,9 @@ void EX() {
 }
 
 void SE() {
-	printf("SE: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("SE: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case OP_PLUS:
 			verifica(OP_PLUS, __FUNCTION__);
@@ -638,7 +712,9 @@ void SE() {
 }
 
 void SEK() {
-	printf("SEK: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("SEK: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case OP_PLUS:
 		case OP_MINUS:
@@ -658,13 +734,17 @@ void SEK() {
 }
 
 void TR() {
-	printf("TR: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("TR: (%s): %s\n", terminais[la], lexema);
+	#endif
 	FAC();
 	TRK();
 }
 
 void TRK() {
-	printf("TRK: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("TRK: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case OP_MULT:
 		case OP_DIV:
@@ -684,7 +764,9 @@ void TRK() {
 }
 
 void FAC() {
-	printf("FAC: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("FAC: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case ID:
 			verifica(ID, __FUNCTION__);
@@ -758,7 +840,9 @@ void FAC() {
 }
 
 /*void N() {
-	printf("N: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("N: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case OP_PLUSPLUS:
 			verifica(OP_PLUSPLUS, __FUNCTION__);
@@ -784,7 +868,9 @@ void FAC() {
 }*/
 
 void AO() {
-	printf("AO: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("AO: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case OP_PLUS:
 			verifica(OP_PLUS, __FUNCTION__);
@@ -799,7 +885,9 @@ void AO() {
 }
 
 void MO() {
-	printf("MO: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("MO: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case OP_MULT:
 			verifica(OP_MULT, __FUNCTION__);
@@ -814,7 +902,9 @@ void MO() {
 }
 
 void RO() {
-	printf("RO: (%s): %s\n", terminais[la], lexema);
+	#ifdef DEBUG
+		printf("RO: (%s): %s\n", terminais[la], lexema);
+	#endif
 	switch (la) {
 		case OP_EQUAL:
 			verifica(OP_EQUAL, __FUNCTION__);
