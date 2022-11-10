@@ -5,13 +5,15 @@
 /*                                                                  */
 /* ---------------------------------------------------------------- */
 
-void verifica(int t);
+void verifica(int t, const char* f);
 char* parser();
 
 void S();		// S
-void P();		// Program + Function
+void P();		// Program
+void F();		// Function
 void FPS();		// Formal_ParameterS
 void FP();		// Formal_Parameter
+void FP_();		// Formal_Parameter', usado para decidir entre EP e FUP
 void EP();		// Expression_Parameter
 void FUP();		// FUnctin_Parameter
 void B();		// Block
@@ -31,6 +33,7 @@ void ST();		// STatement
 void STO();		// Statement Optional
 void CP();		// ComPound
 void CPK();		// ComPound Kleene
+void DEC();		// DEClaração; Gambiarra, permite declaração de variáveis dentro de CP()
 void FCS();		// Function_Call_Statement
 void FC();		// Function_Call
 void AS();		// ASsignment
@@ -45,7 +48,7 @@ void SEK();		// Simple_Expression Kleene
 void TR();		// TeRm
 void TRK();		// TeRm Kleene
 void FAC();		// FACtor
-void N();		// Criado na tentativa de aceitar números com ++ -- pré e pós fixados
+//void N();		// Criado na tentativa de aceitar números com ++ -- pré e pós fixados
 void AO();		// Additive_Operator
 void MO();		// Multiplicative_Operator
 void RO();		// Relational_Operator

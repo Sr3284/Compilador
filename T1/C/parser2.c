@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "tokenizer.h"
-#include "parser.h"
+#include "parser2.h"
 
 #define ID_TAM 15
 
@@ -21,8 +21,13 @@ int lastSimb = 0,
 	posTabela = 0,
 	currLimit = 10;
 
-// Verifica se o próximo terminal é t e avança para o próximo token
-void verifica(int t) {
+/* ----------------------------------------------------------------
+	Verifica se o próximo terminal é t e avança para o próximo to-
+ken, no caso de erro informa se é léxico ou sintático, no caso de
+erro sintático informa a linha do erro, token esperado pela produ-
+ção e token encontrado
+---------------------------------------------------------------- */
+void verifica(int t, const char* f) {
 
 	int i;
 
@@ -49,7 +54,7 @@ void verifica(int t) {
 
 		la = tokenizer();
 	} else {
-		printf("Erro Sintático(linha: %d): token \"%s\" esperado. (%s): \"%s\" encontrado.\n", linhas, terminais[t], terminais[la], lexema);
+		printf("Erro Sintático(linha: %d): token \"%s\" esperado na função %s. (%s): \"%s\" encontrado.\n", linhas, terminais[t], f, terminais[la], lexema);
 		exit(1);
 	}
 }
@@ -60,39 +65,52 @@ void S() {
 }
 
 void P() {
-	printf("P: (%s): %s\n", terminais[la], lexema);
+	F();
+
 	switch (la) {
 		case ID:
-			verifica(ID);
+		case INTEGER:
+		case BOLEAN:
+		case VAZIO:
+			P();
+			break;
+	}
+}
+
+void F() {
+	printf("F: (%s): %s\n", terminais[la], lexema);
+	switch (la) {
+		case ID:
+			verifica(ID, __FUNCTION__);
 			break;
 		case INTEGER:
-			verifica(INTEGER);
+			verifica(INTEGER, __FUNCTION__);
 			break;
 		case BOLEAN:
-			verifica(BOLEAN);
+			verifica(BOLEAN, __FUNCTION__);
 			break;
 		case VAZIO:
-			verifica(VAZIO);
+			verifica(VAZIO, __FUNCTION__);
 			break;
 	}
 
-	verifica(ID);
+	verifica(ID, __FUNCTION__);
 	FPS();
 	B();
 }
 
 void FPS() {
 	printf("FPS: (%s): %s\n", terminais[la], lexema);
-	verifica(EPAREN);
+	verifica(EPAREN, __FUNCTION__);
 	FP();
-	verifica(DPAREN);
+	verifica(DPAREN, __FUNCTION__);
 }
 
 void FP() {
 	printf("FP: (%s): %s\n", terminais[la], lexema);
 	switch (la) {
 		case ID:
-			verifica(ID);
+			verifica(ID, __FUNCTION__);
 			FP_();
 			break;
 		case VAR:
@@ -123,23 +141,23 @@ void EP() {
 	printf("EP: (%s): %s\n", terminais[la], lexema);
 	switch (la) {
 		case VAR:
-			verifica(VAR);
+			verifica(VAR, __FUNCTION__);
 		case VIRG:
 			IL();
 		case DPOINT:
-			verifica(DPOINT);
+			verifica(DPOINT, __FUNCTION__);
 			switch (la) {
 				case ID:
-					verifica(ID);
+					verifica(ID, __FUNCTION__);
 					break;
 				case INTEGER:
-					verifica(INTEGER);
+					verifica(INTEGER, __FUNCTION__);
 					break;
 				case BOLEAN:
-					verifica(BOLEAN);
+					verifica(BOLEAN, __FUNCTION__);
 					break;
 				case VAZIO:
-					verifica(VAZIO);
+					verifica(VAZIO, __FUNCTION__);
 					break;
 			}
 			break;
@@ -150,23 +168,35 @@ void FUP() {
 	printf("FUP: (%s): %s\n", terminais[la], lexema);
 	switch (la) {
 		case ID:
-			verifica(ID);
-			FPS();
+			verifica(ID, __FUNCTION__);
+
+			if (la == PVIRG) {
+				FPS();
+			}
 			break;
 		case INTEGER:
-			verifica(INTEGER);
-			verifica(ID);
-			FPS();
+			verifica(INTEGER, __FUNCTION__);
+			verifica(ID, __FUNCTION__);
+			
+			if (la == PVIRG) {
+				FPS();
+			}
 			break;
 		case BOLEAN:
-			verifica(BOLEAN);
-			verifica(ID);
-			FPS();
+			verifica(BOLEAN, __FUNCTION__);
+			verifica(ID, __FUNCTION__);
+			
+			if (la == PVIRG) {
+				FPS();
+			}
 			break;
 		case VAZIO:
-			verifica(VAZIO);
-			verifica(ID);
-			FPS();
+			verifica(VAZIO, __FUNCTION__);
+			verifica(ID, __FUNCTION__);
+			
+			if (la == PVIRG) {
+				FPS();
+			}
 			break;
 	}
 }
@@ -183,9 +213,9 @@ void B() {
 void L() {
 	printf("L: (%s): %s\n", terminais[la], lexema);
 	if (la == LABELS) {
-		verifica(LABELS);
+		verifica(LABELS, __FUNCTION__);
 		IL();
-		verifica(PVIRG);
+		verifica(PVIRG, __FUNCTION__);
 	}
 }
 
@@ -193,15 +223,15 @@ void IL() {
 	printf("IL: (%s): %s\n", terminais[la], lexema);
 	switch (la) {
 		case ID:
-			verifica(ID);
+			verifica(ID, __FUNCTION__);
 
 			if (la == VIRG) {
 				IL();
 			}
 			break;
 		case VIRG:
-			verifica(VIRG);
-			verifica(ID);
+			verifica(VIRG, __FUNCTION__);
+			verifica(ID, __FUNCTION__);
 
 			if (la == VIRG) {
 				IL();
@@ -213,17 +243,17 @@ void IL() {
 void TS() {
 	printf("TS: (%s): %s\n", terminais[la], lexema);
 	if (la == TYPES) {
-		verifica(TYPES);
+		verifica(TYPES, __FUNCTION__);
 		TSK();
 	}
 }
 
 void TSK() {
 	printf("TSK: (%s): %s\n", terminais[la], lexema);
-	verifica(ID);
-	verifica(OP_ATRB);
+	verifica(ID, __FUNCTION__);
+	verifica(OP_ATRB, __FUNCTION__);
 	T();
-	verifica(PVIRG);
+	verifica(PVIRG, __FUNCTION__);
 
 	if (la == ID) {
 		TSK();
@@ -234,15 +264,15 @@ void T() {
 	printf("T: (%s): %s\n", terminais[la], lexema);
 	switch (la) {
 		case ID:
-			verifica(ID);
+			verifica(ID, __FUNCTION__);
 			TK();
 			break;
 		case INTEGER:
-			verifica(INTEGER);
+			verifica(INTEGER, __FUNCTION__);
 			TK();
 			break;
 		case BOLEAN:
-			verifica(BOLEAN);
+			verifica(BOLEAN, __FUNCTION__);
 			TK();
 			break;
 	}
@@ -251,9 +281,9 @@ void T() {
 void TK() {
 	printf("TK: (%s): %s\n", terminais[la], lexema);
 	if (la == EBRACK) {
-		verifica(EBRACK);
-		verifica(NUM);
-		verifica(DBRACK);
+		verifica(EBRACK, __FUNCTION__);
+		verifica(NUM, __FUNCTION__);
+		verifica(DBRACK, __FUNCTION__);
 		TK();
 	}
 }
@@ -261,7 +291,7 @@ void TK() {
 void VS() {
 	printf("VS: (%s): %s\n", terminais[la], lexema);
 	if (la == VARS) {
-		verifica(VARS);
+		verifica(VARS, __FUNCTION__);
 		VSK();
 	}
 }
@@ -269,9 +299,9 @@ void VS() {
 void VSK() {
 	printf("VSK: (%s): %s\n", terminais[la], lexema);
 	IL();
-	verifica(DPOINT);
+	verifica(DPOINT, __FUNCTION__);
 	T();
-	verifica(PVIRG);
+	verifica(PVIRG, __FUNCTION__);
 
 	if (la == ID) {
 		VSK();
@@ -281,7 +311,7 @@ void VSK() {
 void FN() {
 	printf("FN: (%s): %s\n", terminais[la], lexema);
 	if (la == FUNCTIONS) {
-		verifica(FUNCTIONS);
+		verifica(FUNCTIONS, __FUNCTION__);
 		FNK();
 	}
 }
@@ -302,9 +332,9 @@ void FNK() {
 
 void BD () {
 	printf("BD: (%s): %s\n", terminais[la], lexema);
-	verifica(ECHAVE);
+	verifica(ECHAVE, __FUNCTION__);
 	BDK();
-	verifica(DCHAVE);
+	verifica(DCHAVE, __FUNCTION__);
 }
 
 void BDK() {
@@ -337,6 +367,8 @@ void ST() {
 		case IF:
 		case WHILE:
 		case PVIRG:
+		case OP_PLUSPLUS:
+		case OP_MINUSMINUS:
 			US();
 			break;
 	}
@@ -344,11 +376,11 @@ void ST() {
 
 void STO() {
 	printf("STO: (%s): %s\n", terminais[la], lexema);
-	verifica(ID);
+	verifica(ID, __FUNCTION__);
 
 	switch(la) {
 		case DPOINT:
-			verifica(DPOINT);
+			verifica(DPOINT, __FUNCTION__);
 			US();
 			break;
 		case EPAREN:
@@ -363,16 +395,16 @@ void STO() {
 
 void CP() {
 	printf("CP: (%s): %s\n", terminais[la], lexema);
-	verifica(ECHAVE);
+	verifica(ECHAVE, __FUNCTION__);
 	CPK();
-	verifica(DCHAVE);
+	verifica(DCHAVE, __FUNCTION__);
 }
 
 void CPK() {
 	printf("CPK: (%s): %s\n", terminais[la], lexema);
 	switch (la) {
 		case ID:
-			verifica(ID);
+			verifica(ID, __FUNCTION__);
 
 			switch(la) {
 				case EPAREN:
@@ -384,8 +416,34 @@ void CPK() {
 					AS();
 					CPK();
 					break;
+				case ID:										// gambiarra que permite declaração de variavel dentro de compound
+					DEC();
+					CPK();
+					break;
+				case OP_PLUSPLUS:								// bagunça que aceita ++ variável, favor não mexa
+					verifica(OP_PLUSPLUS, __FUNCTION__);
+					VK();
+					verifica(PVIRG, __FUNCTION__);
+					break;
+				case OP_MINUSMINUS:								// bagunça que aceita -- variável, favor não mexa
+					verifica(OP_MINUSMINUS, __FUNCTION__);
+					VK();
+					verifica(PVIRG, __FUNCTION__);
+					break;
 			}
 			break;
+		case READ:
+			verifica(READ, __FUNCTION__);
+			FCS();
+			CPK();
+			break;
+		case WRITE:
+			verifica(WRITE, __FUNCTION__);
+			FCS();
+			CPK();
+			break;
+		case INTEGER:		// <--- esses dois também fazem parte da gambiarra
+		case BOLEAN:		// <----|
 		case GOTO:
 		case RETURN:
 		case IF:
@@ -397,17 +455,22 @@ void CPK() {
 	}
 }
 
+void DEC() {
+	verifica(ID, __FUNCTION__);
+	verifica(PVIRG, __FUNCTION__);
+}
+
 void FCS() {
 	printf("FCS: (%s): %s\n", terminais[la], lexema);
 	FC();
-	verifica(PVIRG);
+	verifica(PVIRG, __FUNCTION__);
 }
 
 void FC() {
 	printf("FC: (%s): %s\n", terminais[la], lexema);
-	verifica(EPAREN);
+	verifica(EPAREN, __FUNCTION__);
 	EL();
-	verifica(DPAREN);
+	verifica(DPAREN, __FUNCTION__);
 }
 
 void AS() {
@@ -416,18 +479,28 @@ void AS() {
 		case EBRACK:
 			VK();
 		case OP_ATRB:
-			verifica(OP_ATRB);
-			EX();
-			verifica(PVIRG);
+			verifica(OP_ATRB, __FUNCTION__);
+
+			switch (la) {
+				case TRU:
+					verifica(TRU, __FUNCTION__);
+					break;
+				case FALS:
+					verifica(FALS, __FUNCTION__);
+					break;
+				default:
+					EX();
+			}
+			verifica(PVIRG, __FUNCTION__);
 	}
 }
 
 void VK() {
 	printf("VK: (%s): %s\n", terminais[la], lexema);
 	if (la == EBRACK) {	
-		verifica(EBRACK);
+		verifica(EBRACK, __FUNCTION__);
 		EX();
-		verifica(DBRACK);
+		verifica(DBRACK, __FUNCTION__);
 		VK();
 	}
 }
@@ -435,37 +508,57 @@ void VK() {
 void US() {
 	printf("US: (%s): %s\n", terminais[la], lexema);
 	switch (la) {
+		case OP_PLUSPLUS:
+			verifica(OP_PLUSPLUS, __FUNCTION__);
+			verifica(ID, __FUNCTION__);
+			VK();
+			verifica(PVIRG, __FUNCTION__);
+			break;
+		case OP_MINUSMINUS:
+			verifica(OP_MINUSMINUS, __FUNCTION__);
+			verifica(ID, __FUNCTION__);
+			VK();
+			verifica(PVIRG, __FUNCTION__);
+			break;
+		case INTEGER:
+			verifica(INTEGER, __FUNCTION__);
+			DEC();
+			break;
+		case BOLEAN:
+			verifica(BOLEAN, __FUNCTION__);
+			DEC();
+			break;
 		case GOTO:
-			verifica(GOTO);
-			verifica(ID);
-			verifica(PVIRG);
+			verifica(GOTO, __FUNCTION__);
+			verifica(ID, __FUNCTION__);
+			verifica(PVIRG, __FUNCTION__);
 			break;
 		case RETURN:
-			verifica(RETURN);
+			verifica(RETURN, __FUNCTION__);
 			REO();
-			verifica(PVIRG)
+			verifica(PVIRG, __FUNCTION__);
 			break;
 		case IF:
-			verifica(IF);
-			verifica(EPAREN);
+			verifica(IF, __FUNCTION__);
+			verifica(EPAREN, __FUNCTION__);
 			EX();
-			verifica(DPAREN);
+			verifica(DPAREN, __FUNCTION__);
 			CP();
 
 			if (la == ELSE) {
-				verifica(ELSE);
+				verifica(ELSE, __FUNCTION__);
 				CP();
 			}
 			break;
 		case WHILE:
-			verifica(WHILE);
-			verifica(EPAREN);
+			verifica(WHILE, __FUNCTION__);
+			verifica(EPAREN, __FUNCTION__);
 			EX();
-			verifica(DPAREN);
+			verifica(DPAREN, __FUNCTION__);
 			CP();
 			break;
 		case PVIRG:
-			verifica(PVIRG);
+			verifica(PVIRG, __FUNCTION__);
 			break;
 	}
 }
@@ -506,7 +599,7 @@ void EL() {
 void ELK() {
 	printf("ELK: (%s): %s\n", terminais[la], lexema);
 	if (la == VIRG) {	
-		verifica(VIRG);
+		verifica(VIRG, __FUNCTION__);
 		EX();
 		ELK();
 	}
@@ -533,10 +626,10 @@ void SE() {
 	printf("SE: (%s): %s\n", terminais[la], lexema);
 	switch (la) {
 		case OP_PLUS:
-			verifica(OP_PLUS);
+			verifica(OP_PLUS, __FUNCTION__);
 			break;
 		case OP_MINUS:
-			verifica(OP_PLUS);
+			verifica(OP_PLUS, __FUNCTION__);
 			break;
 	}
 
@@ -577,7 +670,7 @@ void TRK() {
 		case OP_DIV:
 		case OP_AND:
 			MO();
-			FC();
+			FAC();
 
 			switch (la) {
 				case OP_MULT:
@@ -594,11 +687,20 @@ void FAC() {
 	printf("FAC: (%s): %s\n", terminais[la], lexema);
 	switch (la) {
 		case ID:
-			verifica(ID);
+			verifica(ID, __FUNCTION__);
 
 			switch (la) {
 				case EBRACK:
 					VK();
+
+					switch (la) {
+						case OP_PLUSPLUS:
+							verifica(OP_PLUSPLUS, __FUNCTION__);
+							break;
+						case OP_MINUSMINUS:
+							verifica(OP_MINUSMINUS, __FUNCTION__);
+							break;
+					}
 					break;
 				case EPAREN:
 					FC();
@@ -606,59 +708,92 @@ void FAC() {
 			}
 			break;
 		case OP_PLUSPLUS:
+			verifica(OP_PLUSPLUS, __FUNCTION__);
+
+			switch (la) {
+				case NUM:
+					verifica(NUM, __FUNCTION__);
+					break;
+				case ID:
+					verifica(ID, __FUNCTION__);
+					VK();
+					break;
+			}
+			break;
 		case OP_MINUSMINUS:
+			verifica(OP_MINUSMINUS, __FUNCTION__);
+
+			switch (la) {
+				case NUM:
+					verifica(NUM, __FUNCTION__);
+					break;
+				case ID:
+					verifica(ID, __FUNCTION__);
+					VK();
+					break;
+			}
+			break;
 		case NUM:
-			N();
+			verifica(NUM, __FUNCTION__);
+
+			switch (la) {
+				case OP_PLUSPLUS:
+					verifica(OP_PLUSPLUS, __FUNCTION__);
+					break;
+				case OP_MINUSMINUS:
+					verifica(OP_MINUSMINUS, __FUNCTION__);
+					break;
+			}
 			break;
 		case EPAREN:
-			verifica(EPAREN);
+			verifica(EPAREN, __FUNCTION__);
 			EX();
-			verifica(DPAREN);
+			verifica(DPAREN, __FUNCTION__);
 			break;
 		case OP_NOT:
-			verifica(OP_NOT);
+			verifica(OP_NOT, __FUNCTION__);
 			FAC();
 			break;
 	}
 }
 
-void N() {
+/*void N() {
 	printf("N: (%s): %s\n", terminais[la], lexema);
 	switch (la) {
 		case OP_PLUSPLUS:
-			verifica(OP_PLUSPLUS);
-			verifica(NUM);
+			verifica(OP_PLUSPLUS, __FUNCTION__);
+			verifica(NUM, __FUNCTION__);
 			break;
 		case OP_MINUSMINUS:
-			verifica(OP_MINUSMINUS);
-			verifica(NUM);
+			verifica(OP_MINUSMINUS, __FUNCTION__);
+			verifica(NUM, __FUNCTION__);
 			break;
 		case NUM:
-			verifica(NUM);
+			verifica(NUM, __FUNCTION__);
 
 			switch (la) {
 				case OP_PLUSPLUS:
-					verifica(OP_PLUSPLUS);
+					verifica(OP_PLUSPLUS, __FUNCTION__);
 					break;
 				case OP_MINUSMINUS:
-					verifica(OP_MINUSMINUS);
+					verifica(OP_MINUSMINUS, __FUNCTION__);
 					break;
 			}
 			break;
 	}
-}
+}*/
 
 void AO() {
 	printf("AO: (%s): %s\n", terminais[la], lexema);
 	switch (la) {
 		case OP_PLUS:
-			verifica(OP_PLUS);
+			verifica(OP_PLUS, __FUNCTION__);
 			break;
 		case OP_MINUS:
-			verifica(OP_MINUS);
+			verifica(OP_MINUS, __FUNCTION__);
 			break;
 		case OP_OR:
-			verifica(OP_OR);
+			verifica(OP_OR, __FUNCTION__);
 			break;
 	}
 }
@@ -667,13 +802,13 @@ void MO() {
 	printf("MO: (%s): %s\n", terminais[la], lexema);
 	switch (la) {
 		case OP_MULT:
-			verifica(OP_MULT);
+			verifica(OP_MULT, __FUNCTION__);
 			break;
 		case OP_DIV:
-			verifica(OP_DIV);
+			verifica(OP_DIV, __FUNCTION__);
 			break;
 		case OP_AND:
-			verifica(OP_AND);
+			verifica(OP_AND, __FUNCTION__);
 			break;
 	}
 }
@@ -682,22 +817,22 @@ void RO() {
 	printf("RO: (%s): %s\n", terminais[la], lexema);
 	switch (la) {
 		case OP_EQUAL:
-			verifica(OP_EQUAL);
+			verifica(OP_EQUAL, __FUNCTION__);
 			break;
 		case OP_DIFF:
-			verifica(OP_DIFF);
+			verifica(OP_DIFF, __FUNCTION__);
 			break;
 		case OP_GREAT:
-			verifica(OP_GREAT);
+			verifica(OP_GREAT, __FUNCTION__);
 			break;
 		case OP_GEQ:
-			verifica(OP_GEQ);
+			verifica(OP_GEQ, __FUNCTION__);
 			break;
 		case OP_LEQ:
-			verifica(OP_LEQ);
+			verifica(OP_LEQ, __FUNCTION__);
 			break;
 		case OP_LESS:
-			verifica(OP_LESS);
+			verifica(OP_LESS, __FUNCTION__);
 			break;
 	}
 }
@@ -738,7 +873,7 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	parser();
+	printf("%s\n", parser());
 
 	fclose(f);
 
